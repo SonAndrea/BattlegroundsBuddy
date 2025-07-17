@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # API keys and secrets
-.env
+./server/.env
