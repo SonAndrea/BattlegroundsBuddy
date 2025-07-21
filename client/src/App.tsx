@@ -1,7 +1,7 @@
-import Header from "./components/Header";
+import PageRoutes from "./components/PageRoutes";
 
 function App() {
-  return <Header onClick={() => console.log("login attempted")}>Login</Header>;
+  return <PageRoutes />;
 }
 
 export default App;

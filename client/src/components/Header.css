@@ -3,4 +3,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    background-color: #343434;
+}
+
+.app-header h1 {
+    color: #fff;
+    font-size: 32px;
 }
