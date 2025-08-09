@@ -1,14 +1,8 @@
 import "./Header.css";
 import { useEffect, useState } from "react";
 
-interface UserData {
-  loggedIn: boolean;
-  battleTag: string;
-}
-
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:4000/user", {
@@ -18,7 +12,6 @@ function Header() {
       .then((data) => {
         if (data?.loggedIn) {
           setIsLoggedIn(true);
-          setUserData(data);
         }
       });
   }, []);
@@ -38,11 +31,9 @@ function Header() {
   return (
     <header className="app-header">
       <h1>Battlegrounds Buddy</h1>
-      <>
-        <button type="button" className={"btn btn-dark"} onClick={handleClick}>
-          {isLoggedIn ? "Logout" : "Login"}
-        </button>
-      </>
+      <button type="button" id="logout-button" onClick={handleClick}>
+        {isLoggedIn ? "Logout" : "Login"}
+      </button>
     </header>
   );
 }

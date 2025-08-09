@@ -1,0 +1,37 @@
+.info-section-container {
+  display: flex;
+  height: 400px;
+  width: 100%; 
+}
+
+.left-section-container {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-section-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+}
+
+#pfp-image {
+  width: 150px;
+  height: 150px;
+  
+  margin-bottom: 20px;
+}
+
+#add-match-button {
+  background-color: #948979;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20%;
+  border: 2px solid white;
+  cursor: pointer;
+}

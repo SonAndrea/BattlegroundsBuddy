@@ -1,10 +1,11 @@
 import express from "express";
 import axios from "axios";
 import crypto from "crypto";
+import pool from "../database/db.js";
 
 const router = express.Router();
 
-// Route to start OAuth
+
 router.get("/oauth", (req, res) => {
   const clientId = process.env.BLIZZARD_CLIENT_ID;
   const redirectUri = process.env.BLIZZARD_REDIRECT_URI;
@@ -12,15 +13,16 @@ router.get("/oauth", (req, res) => {
 
   res.cookie("oauth_state", state, {
     httpOnly: true,
-    maxAge: 300000 // 5 minutes
+    maxAge: 300000
   });
 
   const url = `https://oauth.battle.net/authorize?client_id=${clientId}&scope=openid&response_type=code&redirect_uri=${redirectUri}&state=${state}`;
   res.redirect(url);
 });
 
-// OAuth callback handler
+
 router.get("/oauth/callback", async (req, res) => {
+
   const { code, state } = req.query;
   const storedState = req.cookies.oauth_state;
 
@@ -55,16 +57,24 @@ router.get("/oauth/callback", async (req, res) => {
 
     const battleTag = userInfo.data.battletag;
 
+    await pool.query(
+      `INSERT INTO users (battletag) VALUES ($1) ON CONFLICT (battletag) DO NOTHING`,
+      [battleTag]
+    );
+
     res.cookie("session", battleTag, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000
     });
 
     res.redirect(`http://localhost:5173/user?battletag=${encodeURIComponent(battleTag)}`);
+  
   } catch (error) {
     console.error("OAuth callback error:", error.message);
     res.status(500).send("Failed to authenticate");
   }
+
+
 });
 
 export default router;
